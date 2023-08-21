@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.get('/', AcademicSemesterController.getAllSemester);
 
+router.get('/:id', AcademicSemesterController.getSingleSemester);
+
 router.post(
   '/create-semester',
   validateRequest(AcademicSemesterZodValidation.create),

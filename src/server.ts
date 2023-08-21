@@ -5,15 +5,15 @@ import { errorlogger, logger } from './shared/logger';
 
 async function bootstrap() {
   const server: Server = app.listen(config.port, () => {
-    logger.info(`Server running on port ${config.port}`);
-    console.log('Server Up and Running');
+    logger.info(`Server Up and Running`);
+    // console.log('Server Up and Running');
   });
 
   const exitHandler = () => {
     if (server) {
       server.close(() => {
         logger.info('Server closed');
-        console.log('Server closed');
+        // console.log('Server closed');
       });
     }
     process.exit(1);

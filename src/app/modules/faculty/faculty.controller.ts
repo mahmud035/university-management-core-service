@@ -6,7 +6,6 @@ import sendResponse from '../../../shared/sendResponse';
 import { FacultyService } from './faculty.services';
 
 const createFaculty = catchAsync(async (req: Request, res: Response) => {
-  console.log(req.body);
   const result = await FacultyService.createFaculty(req.body);
 
   sendResponse<Faculty>(res, {
@@ -17,6 +16,19 @@ const createFaculty = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getSingleFaculty = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const result = await FacultyService.getSingleFaculty(id);
+
+  sendResponse<Faculty>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Retrieved Single Faculty Data',
+    data: result,
+  });
+});
+
 export const FacultyController = {
   createFaculty,
+  getSingleFaculty,
 };

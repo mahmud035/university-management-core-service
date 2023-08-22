@@ -18,6 +18,20 @@ const createAcademicFaculty = catchAsync(
   }
 );
 
+const getAllAcademicFaculty = catchAsync(
+  async (req: Request, res: Response) => {
+    console.log(req.query);
+    const result = await AcademicFacultyService.getAllAcademicFaculty();
+
+    sendResponse<AcademicFaculty[]>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Retrieved All Academic Faculty Successfully',
+      data: result,
+    });
+  }
+);
+
 const getSingleAcademicFaculty = catchAsync(
   async (req: Request, res: Response) => {
     const id = req.params.id;
@@ -34,5 +48,6 @@ const getSingleAcademicFaculty = catchAsync(
 
 export const AcademicFacultyController = {
   createAcademicFaculty,
+  getAllAcademicFaculty,
   getSingleAcademicFaculty,
 };

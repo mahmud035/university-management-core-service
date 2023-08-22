@@ -15,6 +15,23 @@ const createAcademicDepartment = async (
   return result;
 };
 
+const getSingleAcademicDepartment = async (
+  id: string
+): Promise<AcademicDepartment | null> => {
+  const result = await prisma.academicDepartment.findUnique({
+    where: {
+      id,
+    },
+    // NOTE: Same as Mongoose Populate
+    include: {
+      academicFaculty: true,
+    },
+  });
+
+  return result;
+};
+
 export const AcademicDepartmentService = {
   createAcademicDepartment,
+  getSingleAcademicDepartment,
 };

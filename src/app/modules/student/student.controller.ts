@@ -16,6 +16,17 @@ const createStudent = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllStudent = catchAsync(async (req: Request, res: Response) => {
+  const result = await StudentService.getAllStudent();
+
+  sendResponse<Student[]>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Retrieved All Student Data',
+    data: result,
+  });
+});
+
 const getSingleStudent = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const result = await StudentService.getSingleStudent(id);
@@ -30,5 +41,6 @@ const getSingleStudent = catchAsync(async (req: Request, res: Response) => {
 
 export const StudentController = {
   createStudent,
+  getAllStudent,
   getSingleStudent,
 };

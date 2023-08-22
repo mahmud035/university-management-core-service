@@ -12,7 +12,21 @@ const createAcademicFaculty = catchAsync(
     sendResponse<AcademicFaculty>(res, {
       statusCode: httpStatus.OK,
       success: true,
-      message: 'Academic Faculty created successfully',
+      message: 'Academic Faculty Created Successfully',
+      data: result,
+    });
+  }
+);
+
+const getSingleAcademicFaculty = catchAsync(
+  async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const result = await AcademicFacultyService.getSingleAcademicFaculty(id);
+
+    sendResponse<AcademicFaculty>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Retrieved Single Academic Faculty Data',
       data: result,
     });
   }
@@ -20,4 +34,5 @@ const createAcademicFaculty = catchAsync(
 
 export const AcademicFacultyController = {
   createAcademicFaculty,
+  getSingleAcademicFaculty,
 };

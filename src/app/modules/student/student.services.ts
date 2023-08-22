@@ -16,6 +16,24 @@ const createStudent = async (studentData: Student): Promise<Student> => {
   return result;
 };
 
+const getSingleStudent = async (id: string): Promise<Student | null> => {
+  const result = await prisma.student.findUnique({
+    where: {
+      id,
+    },
+
+    // NOTE: Same as Mongoose Populate
+    include: {
+      academicSemester: true,
+      academicFaculty: true,
+      academicDepartment: true,
+    },
+  });
+
+  return result;
+};
+
 export const StudentService = {
   createStudent,
+  getSingleStudent,
 };

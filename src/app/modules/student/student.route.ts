@@ -5,6 +5,8 @@ import { StudentValidation } from './student.validation';
 
 const router = express.Router();
 
+router.get('/:id', StudentController.getSingleStudent);
+
 router.post(
   '/create-student',
   validateRequest(StudentValidation.create),

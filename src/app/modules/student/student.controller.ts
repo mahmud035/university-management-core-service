@@ -16,6 +16,19 @@ const createStudent = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getSingleStudent = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const result = await StudentService.getSingleStudent(id);
+
+  sendResponse<Student>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Retrieved Single Student Data',
+    data: result,
+  });
+});
+
 export const StudentController = {
   createStudent,
+  getSingleStudent,
 };

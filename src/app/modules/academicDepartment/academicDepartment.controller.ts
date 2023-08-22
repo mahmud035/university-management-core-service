@@ -20,6 +20,19 @@ const createAcademicDepartment = catchAsync(
   }
 );
 
+const getAllAcademicDepartment = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await AcademicDepartmentService.getAllAcademicDepartment();
+
+    sendResponse<AcademicDepartment[]>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Retrieved All Academic Department Data',
+      data: result,
+    });
+  }
+);
+
 const getSingleAcademicDepartment = catchAsync(
   async (req: Request, res: Response) => {
     const id = req.params.id;
@@ -38,5 +51,6 @@ const getSingleAcademicDepartment = catchAsync(
 
 export const AcademicDepartmentController = {
   createAcademicDepartment,
+  getAllAcademicDepartment,
   getSingleAcademicDepartment,
 };

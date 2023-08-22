@@ -15,6 +15,11 @@ const createAcademicDepartment = async (
   return result;
 };
 
+const getAllAcademicDepartment = async (): Promise<AcademicDepartment[]> => {
+  const result = await prisma.academicDepartment.findMany();
+  return result;
+};
+
 const getSingleAcademicDepartment = async (
   id: string
 ): Promise<AcademicDepartment | null> => {
@@ -33,5 +38,6 @@ const getSingleAcademicDepartment = async (
 
 export const AcademicDepartmentService = {
   createAcademicDepartment,
+  getAllAcademicDepartment,
   getSingleAcademicDepartment,
 };

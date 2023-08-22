@@ -16,6 +16,17 @@ const createFaculty = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllFaculty = catchAsync(async (req: Request, res: Response) => {
+  const result = await FacultyService.getAllFaculty();
+
+  sendResponse<Faculty[]>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Retrieved Single Faculty Data',
+    data: result,
+  });
+});
+
 const getSingleFaculty = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
   const result = await FacultyService.getSingleFaculty(id);
@@ -30,5 +41,6 @@ const getSingleFaculty = catchAsync(async (req: Request, res: Response) => {
 
 export const FacultyController = {
   createFaculty,
+  getAllFaculty,
   getSingleFaculty,
 };

@@ -15,6 +15,17 @@ const createFaculty = async (facultyData: Faculty): Promise<Faculty> => {
   return result;
 };
 
+const getAllFaculty = async (): Promise<Faculty[]> => {
+  const result = await prisma.faculty.findMany({
+    include: {
+      academicFaculty: true,
+      academicDepartment: true,
+    },
+  });
+
+  return result;
+};
+
 const getSingleFaculty = async (id: string): Promise<Faculty | null> => {
   const result = await prisma.faculty.findUnique({
     where: {
@@ -30,5 +41,6 @@ const getSingleFaculty = async (id: string): Promise<Faculty | null> => {
 
 export const FacultyService = {
   createFaculty,
+  getAllFaculty,
   getSingleFaculty,
 };

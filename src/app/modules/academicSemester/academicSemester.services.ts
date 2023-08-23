@@ -116,9 +116,20 @@ const updateSemester = async (
   return result;
 };
 
+const deleteSemester = async (id: string): Promise<AcademicSemester> => {
+  const result = await prisma.academicSemester.delete({
+    where: {
+      id,
+    },
+  });
+
+  return result;
+};
+
 export const AcademicSemesterService = {
   createAcademicSemester,
   getAllSemester,
   getSingleSemester,
   updateSemester,
+  deleteSemester,
 };

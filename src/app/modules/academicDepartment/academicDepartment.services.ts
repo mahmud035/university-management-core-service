@@ -132,8 +132,29 @@ const getSingleAcademicDepartment = async (
   return result;
 };
 
+const updateAcademicDepartment = async (
+  id: string,
+  payload: Partial<AcademicDepartment>
+): Promise<AcademicDepartment> => {
+  const result = await prisma.academicDepartment.update({
+    where: {
+      id,
+    },
+
+    // what to update
+    data: payload,
+
+    // Populate
+    include: {
+      academicFaculty: true,
+    },
+  });
+  return result;
+};
+
 export const AcademicDepartmentService = {
   createAcademicDepartment,
   getAllAcademicDepartment,
   getSingleAcademicDepartment,
+  updateAcademicDepartment,
 };

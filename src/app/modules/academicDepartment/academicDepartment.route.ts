@@ -25,4 +25,10 @@ router.patch(
   AcademicDepartmentController.updateAcademicDepartment
 );
 
+router.delete(
+  '/:id',
+  auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
+  AcademicDepartmentController.deleteAcademicDepartment
+);
+
 export const AcademicDepartmentRoutes = router;

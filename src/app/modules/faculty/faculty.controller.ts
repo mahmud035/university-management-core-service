@@ -2,7 +2,9 @@ import { Faculty } from '@prisma/client';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
+import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
+import { facultyFilterableFields } from './faculty.constant';
 import { FacultyService } from './faculty.services';
 
 const createFaculty = catchAsync(async (req: Request, res: Response) => {
@@ -17,13 +19,17 @@ const createFaculty = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllFaculty = catchAsync(async (req: Request, res: Response) => {
-  const result = await FacultyService.getAllFaculty();
+  const filters = pick(req.query, facultyFilterableFields);
+  const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
+
+  const result = await FacultyService.getAllFaculty(filters, options);
 
   sendResponse<Faculty[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Retrieved Single Faculty Data',
-    data: result,
+    message: 'Retrieved All Faculty Data',
+    meta: result.meta,
+    data: result.data,
   });
 });
 

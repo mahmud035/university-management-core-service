@@ -11,17 +11,31 @@ const auth =
     try {
       //get authorization token
       const token = req.headers.authorization;
+
       if (!token) {
         throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized');
       }
       // verify token
       let verifiedUser = null;
 
-      verifiedUser = jwtHelpers.verifyToken(token, config.jwt.secret as Secret);
+      verifiedUser = jwtHelpers.verifyToken(
+        token,
+        config.jwt.access_token_secret as Secret
+      );
 
-      req.user = verifiedUser; // role  , userid
+      // console.log(verifiedUser);
+      /*
+        { 
+          userId: 'A-00001', 
+          role: 'admin', 
+          iat: 1692797608, 
+          exp: 1701437608 
+        }
+      */
 
-      // role diye guard korar jnno
+      req.user = verifiedUser; // role & userId thakbe
+
+      // role diye guard korar jonno
       if (requiredRoles.length && !requiredRoles.includes(verifiedUser.role)) {
         throw new ApiError(httpStatus.FORBIDDEN, 'Forbidden');
       }

@@ -4,5 +4,14 @@
     "source.fixAll.tslint": true,
     "source.organizeImports": true
   },
-  "cSpell.words": ["bloodgroup", "bycrypt", "errorlogger", "middlewares"]
+  "cSpell.words": [
+    "bloodgroup",
+    "bycrypt",
+    "diye",
+    "errorlogger",
+    "jonno",
+    "korar",
+    "middlewares",
+    "thakbe"
+  ]
 }

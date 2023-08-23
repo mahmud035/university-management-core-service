@@ -74,9 +74,24 @@ const updateAcademicFaculty = catchAsync(
   }
 );
 
+const deleteAcademicFaculty = catchAsync(
+  async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const result = await AcademicFacultyService.deleteAcademicFaculty(id);
+
+    sendResponse<AcademicFaculty>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Delete Academic Faculty Successfully',
+      data: result,
+    });
+  }
+);
+
 export const AcademicFacultyController = {
   createAcademicFaculty,
   getAllAcademicFaculty,
   getSingleAcademicFaculty,
   updateAcademicFaculty,
+  deleteAcademicFaculty,
 };

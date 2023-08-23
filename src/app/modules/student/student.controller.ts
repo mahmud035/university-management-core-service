@@ -4,7 +4,7 @@ import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
 import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
-import { studentFilterableFields } from './student.contant';
+import { studentFilterableFields } from './student.constant';
 import { StudentService } from './student.services';
 
 const createStudent = catchAsync(async (req: Request, res: Response) => {
@@ -48,8 +48,23 @@ const getSingleStudent = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateSingleStudent = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const data = req.body;
+
+  const result = await StudentService.updateSingleStudent(id, data);
+
+  sendResponse<Student>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Student Info Updated Successfully',
+    data: result,
+  });
+});
+
 export const StudentController = {
   createStudent,
   getAllStudent,
   getSingleStudent,
+  updateSingleStudent,
 };

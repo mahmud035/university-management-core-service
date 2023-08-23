@@ -15,4 +15,10 @@ router.post(
   StudentController.createStudent
 );
 
+router.patch(
+  '/:id',
+  validateRequest(StudentValidation.update),
+  StudentController.updateSingleStudent
+);
+
 export const StudentRoutes = router;

@@ -8,7 +8,7 @@ import {
   studentRelationalFields,
   studentRelationalFieldsMapper,
   studentSearchableFields,
-} from './student.contant';
+} from './student.constant';
 import { IStudentFilterRequest } from './student.interface';
 
 const createStudent = async (studentData: Student): Promise<Student> => {
@@ -129,8 +129,23 @@ const getSingleStudent = async (id: string): Promise<Student | null> => {
   return result;
 };
 
+const updateSingleStudent = async (
+  id: string,
+  payload: Partial<Student>
+): Promise<Student> => {
+  const result = await prisma.student.update({
+    where: {
+      id,
+    },
+    data: payload,
+  });
+
+  return result;
+};
+
 export const StudentService = {
   createStudent,
   getAllStudent,
   getSingleStudent,
+  updateSingleStudent,
 };

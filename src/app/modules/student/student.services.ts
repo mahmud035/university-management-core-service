@@ -1,5 +1,15 @@
-import { Student } from '@prisma/client';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Prisma, Student } from '@prisma/client';
+import { paginationHelpers } from '../../../helpers/paginationHelper';
+import { IGenericResponse } from '../../../interfaces/common';
+import { IPaginationOptions } from '../../../interfaces/pagination';
 import prisma from '../../../shared/prisma';
+import {
+  studentRelationalFields,
+  studentRelationalFieldsMapper,
+  studentSearchableFields,
+} from './student.contant';
+import { IStudentFilterRequest } from './student.interface';
 
 const createStudent = async (studentData: Student): Promise<Student> => {
   const result = await prisma.student.create({
@@ -16,17 +26,90 @@ const createStudent = async (studentData: Student): Promise<Student> => {
   return result;
 };
 
-const getAllStudent = async (): Promise<Student[]> => {
+const getAllStudent = async (
+  filters: IStudentFilterRequest,
+  options: IPaginationOptions
+): Promise<IGenericResponse<Student[]>> => {
+  // Pagination
+  const { limit, page, skip } = paginationHelpers.calculatePagination(options);
+
+  // Searching / Filtering
+  const { searchTerm, ...filterData } = filters;
+
+  const andConditions = [];
+
+  if (searchTerm) {
+    andConditions.push({
+      OR: studentSearchableFields.map((field) => ({
+        [field]: {
+          contains: searchTerm,
+          mode: 'insensitive',
+        },
+      })),
+    });
+  }
+
+  if (Object.keys(filterData).length > 0) {
+    andConditions.push({
+      AND: Object.keys(filterData).map((key) => {
+        if (studentRelationalFields.includes(key)) {
+          return {
+            [studentRelationalFieldsMapper[key]]: {
+              id: (filterData as any)[key],
+            },
+          };
+        } else {
+          return {
+            [key]: {
+              equals: (filterData as any)[key],
+            },
+          };
+        }
+      }),
+    });
+  }
+
+  const whereConditions: Prisma.StudentWhereInput =
+    andConditions.length > 0 ? { AND: andConditions } : {};
+
   const result = await prisma.student.findMany({
-    // NOTE: Same as Mongoose Populate
+    // Populate
     include: {
       academicSemester: true,
       academicFaculty: true,
       academicDepartment: true,
     },
+
+    // Pagination
+    skip,
+    take: limit,
+
+    // Filtering
+    where: whereConditions,
+
+    // Sorting
+    orderBy:
+      options.sortBy && options.sortOrder
+        ? {
+            [options.sortBy]: options.sortOrder,
+          }
+        : {
+            createdAt: 'desc',
+          },
   });
 
-  return result;
+  const total = await prisma.student.count({
+    where: whereConditions,
+  });
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
 };
 
 const getSingleStudent = async (id: string): Promise<Student | null> => {

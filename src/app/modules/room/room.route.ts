@@ -7,6 +7,8 @@ import { RoomZodValidation } from './room.validation';
 
 const router = express.Router();
 
+router.get('/', RoomController.getAllRoom);
+
 router.get('/:id', RoomController.getSingleRoom);
 
 router.post(

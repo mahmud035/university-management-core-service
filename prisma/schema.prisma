@@ -119,5 +119,5 @@ model Room {
   building   Building @relation(fields: [buildingId], references: [id])
   buildingId String
 
-  @@map("rooms")
+  @@map("")
 }

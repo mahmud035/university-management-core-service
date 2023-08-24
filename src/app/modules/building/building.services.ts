@@ -9,6 +9,17 @@ const createBuilding = async (buildingData: Building): Promise<Building> => {
   return result;
 };
 
+const getSingleBuilding = async (id: string): Promise<Building | null> => {
+  const result = await prisma.building.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  return result;
+};
+
 export const BuildingService = {
   createBuilding,
+  getSingleBuilding,
 };

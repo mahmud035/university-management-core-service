@@ -16,4 +16,11 @@ router.post(
   RoomController.createRoom
 );
 
+router.patch(
+  '/:id',
+  auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
+  validateRequest(RoomZodValidation.update),
+  RoomController.updateRoom
+);
+
 export const RoomRoutes = router;

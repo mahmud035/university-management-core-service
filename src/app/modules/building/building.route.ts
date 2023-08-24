@@ -7,6 +7,8 @@ import { BuildingZodValidation } from './building.validation';
 
 const router = express.Router();
 
+router.get('/', BuildingController.getAllBuilding);
+
 router.get('/:id', BuildingController.getSingleBuilding);
 
 router.post(

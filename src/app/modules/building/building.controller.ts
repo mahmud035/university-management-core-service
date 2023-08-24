@@ -2,7 +2,9 @@ import { Building } from '@prisma/client';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
+import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
+import { buildingFilterableFields } from './building.constant';
 import { BuildingService } from './building.services';
 
 const createBuilding = catchAsync(async (req: Request, res: Response) => {
@@ -13,6 +15,24 @@ const createBuilding = catchAsync(async (req: Request, res: Response) => {
     success: true,
     message: 'Building Created Successfully',
     data: result,
+  });
+});
+
+const getAllBuilding = catchAsync(async (req: Request, res: Response) => {
+  const filters = pick(req.query, buildingFilterableFields);
+  const options = pick(req.query, ['page', 'limit', 'sortBy', 'sortOrder']);
+
+  // console.log('filters', filters);
+  // console.log('options', options);
+
+  const result = await BuildingService.getAllBuilding(filters, options);
+
+  sendResponse<Building[]>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Retrieved All Building Data',
+    meta: result.meta,
+    data: result.data,
   });
 });
 
@@ -55,6 +75,7 @@ const deleteSingleBuilding = catchAsync(async (req: Request, res: Response) => {
 
 export const BuildingController = {
   createBuilding,
+  getAllBuilding,
   getSingleBuilding,
   updateSingleBuilding,
   deleteSingleBuilding,

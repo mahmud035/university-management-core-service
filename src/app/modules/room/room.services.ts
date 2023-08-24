@@ -13,6 +13,21 @@ const createRoom = async (roomData: Room): Promise<Room> => {
   return result;
 };
 
+const getSingleRoom = async (id: string): Promise<Room | null> => {
+  const result = await prisma.room.findUnique({
+    where: {
+      id,
+    },
+    // Populate
+    include: {
+      building: true,
+    },
+  });
+
+  return result;
+};
+
 export const RoomService = {
   createRoom,
+  getSingleRoom,
 };

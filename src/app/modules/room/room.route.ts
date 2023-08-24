@@ -7,6 +7,8 @@ import { RoomZodValidation } from './room.validation';
 
 const router = express.Router();
 
+router.get('/:id', RoomController.getSingleRoom);
+
 router.post(
   '/create-room',
   auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),

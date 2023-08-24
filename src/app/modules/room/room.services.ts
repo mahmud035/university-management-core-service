@@ -48,8 +48,24 @@ const updateRoom = async (
   return result;
 };
 
+const deleteRoom = async (id: string): Promise<Room> => {
+  const result = await prisma.room.delete({
+    where: {
+      id,
+    },
+
+    // Populate
+    include: {
+      building: true,
+    },
+  });
+
+  return result;
+};
+
 export const RoomService = {
   createRoom,
   getSingleRoom,
   updateRoom,
+  deleteRoom,
 };

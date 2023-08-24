@@ -16,4 +16,11 @@ router.post(
   BuildingController.createBuilding
 );
 
+router.patch(
+  '/:id',
+  auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
+  validateRequest(BuildingZodValidation.update),
+  BuildingController.updateSingleBuilding
+);
+
 export const BuildingRoutes = router;

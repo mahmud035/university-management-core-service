@@ -26,7 +26,7 @@ const getAllSemester = async (
   // Pagination
   const { page, limit, skip } = paginationHelpers.calculatePagination(options);
 
-  // Filtering / Searching
+  // Searching & Filtering
   const { searchTerm, ...filterData } = filters;
 
   // console.log('filters:', filters);
@@ -63,7 +63,7 @@ const getAllSemester = async (
     skip,
     take: limit,
 
-    // Filtering
+    // Searching & Filtering
     where: whereConditions,
 
     // Sorting

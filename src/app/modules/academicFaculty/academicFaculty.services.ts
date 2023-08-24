@@ -24,7 +24,7 @@ const getAllAcademicFaculty = async (
   // Pagination
   const { limit, page, skip } = paginationHelpers.calculatePagination(options);
 
-  // Filtering / Searching
+  // Searching & Filtering
   const { searchTerm, ...filterData } = filters;
 
   // console.log('filters:', filters);
@@ -61,7 +61,7 @@ const getAllAcademicFaculty = async (
     skip,
     take: limit,
 
-    // Filtering
+    // Searching & Filtering
     where: whereConditions,
 
     // Sorting

@@ -33,8 +33,11 @@ const getAllStudent = async (
   // Pagination
   const { limit, page, skip } = paginationHelpers.calculatePagination(options);
 
-  // Searching / Filtering
+  // Searching & Filtering
   const { searchTerm, ...filterData } = filters;
+
+  // console.log('filters:', filters);
+  // console.log('filterData:', filterData); // Object
 
   const andConditions = [];
 
@@ -84,7 +87,7 @@ const getAllStudent = async (
     skip,
     take: limit,
 
-    // Filtering
+    // Searching & Filtering
     where: whereConditions,
 
     // Sorting

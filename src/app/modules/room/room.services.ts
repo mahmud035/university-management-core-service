@@ -33,6 +33,9 @@ const getAllRoom = async (
   // Searching & Filtering
   const { searchTerm, ...filterData } = filters;
 
+  // console.log('filters:', filters);
+  // console.log('filterData:', filterData); // Object
+
   const andConditions = [];
 
   if (searchTerm) {

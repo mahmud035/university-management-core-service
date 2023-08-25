@@ -7,6 +7,8 @@ import { CourseZodValidation } from './course.validation';
 
 const router = express.Router();
 
+router.get('/', CourseController.getAllCourse);
+
 router.get('/:id', CourseController.getSingleCourse);
 
 router.post(

@@ -32,6 +32,7 @@ const update = z.object({
       .array(
         z.object({
           courseId: z.string().optional(),
+          isDeleted: z.boolean().optional(),
         })
       )
       .optional(),

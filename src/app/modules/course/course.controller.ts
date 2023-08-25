@@ -2,7 +2,9 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
+import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
+import { courseFilterableFields } from './course.constant';
 import { CourseService } from './course.services';
 
 const createCourse = catchAsync(async (req: Request, res: Response) => {
@@ -14,6 +16,21 @@ const createCourse = catchAsync(async (req: Request, res: Response) => {
     success: true,
     message: 'Course Created Successfully',
     data: result,
+  });
+});
+
+const getAllCourse = catchAsync(async (req: Request, res: Response) => {
+  const filters = pick(req.query, courseFilterableFields);
+  const options = pick(req.query, ['page', 'limit', 'sortBy', 'sortOrder']);
+
+  const result = await CourseService.getAllCourse(filters, options);
+
+  sendResponse<any>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Retrieved All Course Successfully',
+    meta: result.meta,
+    data: result.data,
   });
 });
 
@@ -43,6 +60,7 @@ const deleteCourse = catchAsync(async (req: Request, res: Response) => {
 
 export const CourseController = {
   createCourse,
+  getAllCourse,
   getSingleCourse,
   deleteCourse,
 };

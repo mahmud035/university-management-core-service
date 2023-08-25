@@ -86,7 +86,31 @@ const getSingleCourse = async (id: string): Promise<Course | null> => {
   return result;
 };
 
+const deleteCourse = async (id: string): Promise<Course> => {
+  await prisma.courseToPrerequisite.deleteMany({
+    where: {
+      OR: [
+        {
+          courseId: id,
+        },
+        {
+          preRequisiteId: id,
+        },
+      ],
+    },
+  });
+
+  const result = await prisma.course.delete({
+    where: {
+      id,
+    },
+  });
+
+  return result;
+};
+
 export const CourseService = {
   createCourse,
   getSingleCourse,
+  deleteCourse,
 };

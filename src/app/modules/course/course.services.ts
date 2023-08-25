@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Course } from '@prisma/client';
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
 import prisma from '../../../shared/prisma';
@@ -63,6 +64,29 @@ const createCourse = async (data: ICourseCreateData): Promise<any> => {
   throw new ApiError(httpStatus.BAD_REQUEST, 'Unable to create course');
 };
 
+const getSingleCourse = async (id: string): Promise<Course | null> => {
+  const result = await prisma.course.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      preRequisite: {
+        include: {
+          preRequisite: true,
+        },
+      },
+      preRequisiteFor: {
+        include: {
+          course: true,
+        },
+      },
+    },
+  });
+
+  return result;
+};
+
 export const CourseService = {
   createCourse,
+  getSingleCourse,
 };

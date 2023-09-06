@@ -173,6 +173,36 @@ const getSingleCourse = async (id: string): Promise<Course | null> => {
   return result;
 };
 
+const updateCourse = async (
+  id: string,
+  payload: ICourseCreateData
+): Promise<Course | null> => {
+  const { preRequisiteCourses, ...courseData } = payload;
+
+  await prisma.$transaction(async (transactionClient) => {
+    const result = await transactionClient.course.update({
+      where: {
+        id,
+      },
+      data: courseData,
+    });
+
+    if (!result) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Unable to update course');
+    }
+
+    if (preRequisiteCourses && preRequisiteCourses.length > 0) {
+      const deletePrerequisite = preRequisiteCourses.filter(
+        (coursePrerequisite) =>
+          coursePrerequisite.courseId && coursePrerequisite.isDeleted === true
+      );
+      console.log(deletePrerequisite);
+    }
+  });
+
+  // return result;
+};
+
 const deleteCourse = async (id: string): Promise<Course> => {
   await prisma.courseToPrerequisite.deleteMany({
     where: {
@@ -200,5 +230,6 @@ export const CourseService = {
   createCourse,
   getAllCourse,
   getSingleCourse,
+  updateCourse,
   deleteCourse,
 };

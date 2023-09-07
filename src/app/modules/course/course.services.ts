@@ -319,7 +319,7 @@ const removeFaculties = async (
     where: {
       courseId: id,
       facultyId: {
-        in: payload,
+        in: payload, // NOTE: in loop (provided by prisma)
       },
     },
   });

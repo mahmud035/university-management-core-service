@@ -78,7 +78,7 @@ const assignFaculties = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Faculty / Teacher assigned into Course successfully',
+    message: 'Faculty / Teacher assigned for Course successfully',
     data: result,
   });
 });

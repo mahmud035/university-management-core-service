@@ -41,11 +41,9 @@ const update = z.object({
 
 const assignFaculties = z.object({
   body: z.object({
-    faculties: z.array(
-      z.string({
-        required_error: 'Faculty Id or Ids are required',
-      })
-    ),
+    faculties: z.array(z.string(), {
+      required_error: 'Faculties are required',
+    }),
   }),
 });
 

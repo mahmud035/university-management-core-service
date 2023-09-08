@@ -7,6 +7,8 @@ import { SemesterRegistrationValidation } from './semesterRegistration.validatio
 
 const router = express.Router();
 
+router.get('/', SemesterRegistrationController.getAllSemesterRegistration);
+
 router.get(
   '/:id',
   SemesterRegistrationController.getSingleSemesterRegistration

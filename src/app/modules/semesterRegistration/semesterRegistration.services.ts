@@ -37,6 +37,38 @@ const createSemesterRegistration = async (
   return result;
 };
 
+const getSingleSemesterRegistration = async (
+  id: string
+): Promise<SemesterRegistration | null> => {
+  const result = await prisma.semesterRegistration.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      academicSemester: true,
+    },
+  });
+
+  return result;
+};
+
+const deleteSemesterRegistration = async (
+  id: string
+): Promise<SemesterRegistration | null> => {
+  const result = await prisma.semesterRegistration.delete({
+    where: {
+      id,
+    },
+    include: {
+      academicSemester: true,
+    },
+  });
+
+  return result;
+};
+
 export const SemesterRegistrationService = {
   createSemesterRegistration,
+  getSingleSemesterRegistration,
+  deleteSemesterRegistration,
 };
